@@ -1,7 +1,7 @@
 <?php
-if(isset($_Joueur_)){
+if(Permission::getInstance()->verifPerm("connect")){
 
-    if($_PGrades_['PermsForum']['general']['addForum'] == true OR $_PGrades_['PermsForum']['general']['addCategorie'] == true OR $_Joueur_['rang'] == 1){
+    if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') OR Permission::getInstance()->verifPerm('PermsForum', 'general', 'addCategorie') OR $_Joueur_['rang'] == 1){
 
         $fofo = $_Forum_->affichageForum();
         if($_GET['page'] == "forum"){

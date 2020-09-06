@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xs-12 col-md-8">
                     <?php
-                    if($_PGrades_['PermsForum']['general']['addForum'] == true OR $_Joueur_['rang'] == 1 AND !$_SESSION['mode'])
+                    if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') == true OR $_Joueur_['rang'] == 1 AND !$_SESSION['mode'])
                     {
                         ?>
                     <div class="btn-group">
@@ -17,7 +17,7 @@
                     </div>
                     <?php
                     }
-                    if($_Joueur_['rang'] == 1 OR $_PGrades_['PermsForum']['general']['addForum'] == true){?>
+                    if($_Joueur_['rang'] == 1 OR Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') == true){?>
                     <div class="btn-group">
                         <a class="btn btn-danger btn-sm" id="addcata" role="button" data-toggle="collapse"
                             href="#nav-add_cat" aria-expanded="false" aria-controls="add_forum">
@@ -33,30 +33,27 @@
 
                 <div class="col-xs-12 col-md-4">
                     <div style="float: right;display: inline-block">
-                        <?php if($_PGrades_['PermsForum']['general']['deleteForum'] == true OR $_Joueur_['rang'] == 1){?>
+                        <?php if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'deleteForum') == true OR $_Joueur_['rang'] == 1){?>
                         <div class="btn-group">
                             <a class="btn btn-outline-info btn-sm" role="button" data-toggle="modal"
                                 data-target="#nav-settings">
                                 <i class="fas fa-cogs"></i> Paramétres
                             </a>
                         </div>
-                        <?php }
-                    if($_PGrades_['PermsPanel']['forum']['action']['seeSmileys'] == true OR $_Joueur_['rang'] == 1)
-                    { ?>
+                        <?php } ?>
                         <div class="btn-group">
                             <a class="btn btn-outline-info btn-sm" role="button" data-toggle="modal"
                                 data-target="#nav-smileys">
                                 <i class="fas fa-smile"></i> Smileys
                             </a>
                         </div>
-                        <?php } ?>
                     </div>
                 </div>
             </div>
 
         </div>
         <?php
-        if($_PGrades_['PermsForum']['general']['addForum'] == true OR $_Joueur_['rang'] == 1)
+        if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') == true OR $_Joueur_['rang'] == 1)
         {
         ?>
         <div class="collapse" id="nav-add_forum" style="position: absolute;z-index: 1049!important" id="nav-add_cat">
@@ -77,7 +74,7 @@
             </div>
         </div>
         <?php }
-        if($_Joueur_['rang'] == 1 OR $_PGrades_['PermsForum']['general']['addForum'] == true){ ?>
+        if($_Joueur_['rang'] == 1 OR Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') == true){ ?>
         <div class="collapse" style="position: absolute;z-index: 1049!important" id="nav-add_cat">
             <div class="well panel-body">
                 <form action="?action=create_cat" method="post">
@@ -117,7 +114,7 @@
         </div>
         <?php 
         }
-        if($_PGrades_['PermsForum']['general']['deleteForum'] == true OR $_Joueur_['rang'] == 1){?>
+        if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'deleteForum') == true OR $_Joueur_['rang'] == 1){?>
         <!-- Paramétres -->
         <div class="modal fade" id="nav-settings" tabindex="-1" role="dialog"
             aria-hidden="true">
@@ -135,7 +132,7 @@
                             <div class="panel-body well">
                                 <div class="container-fluid">
                                     <?php
-                                    if($_Joueur_['rang'] == 1 OR $_PGrades_['PermsPanel']['theme']['actions']['editTheme'] == true)
+                                    if($_Joueur_['rang'] == 1 OR Permission::getInstance()->verifPerm('PermsPanel', 'theme', 'actions', 'editTheme') == true)
                                     { ?>
                                     <div class="alert alert-success">
                                         <p>
@@ -279,9 +276,7 @@
                 </div>
             </div>
         </div>
-        <?php }
-        if($_PGrades_['PermsPanel']['forum']['action']['seeSmileys'] == true OR $_Joueur_['rang'] == 1)
-        { ?>
+        <?php } ?>
         <!-- Smileys -->
         <div class="modal fade" id="nav-smileys" tabindex="-1" role="dialog"
             aria-hidden="true">
@@ -384,7 +379,6 @@
                 </div>
             </div>
         </div>
-        <?php } ?>
 
 
     </div>

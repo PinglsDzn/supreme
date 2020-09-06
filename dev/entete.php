@@ -1,6 +1,6 @@
 <header class="navbar navbar-default navbar-static-top" <?php
                         if(isset($_GET['page']) AND $_GET['page'] == "forum" OR $_GET['page'] == "forum_categorie"){
-                            if($_PGrades_['PermsForum']['general']['addForum'] == true OR $_PGrades_['PermsForum']['general']['addCategorie'] == true OR $_Joueur_['rang'] == 1){
+                            if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') OR Permission::getInstance()->verifPerm('PermsForum', 'general', 'addCategorie') OR $_Joueur_['rang'] == 1){
                                 echo 'style="z-index: 1050"';
                             }
                         } ?>>
@@ -80,18 +80,18 @@
                 ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <?php if(isset($_Joueur_)) { 
+                <?php if(Permission::getInstance()->verifPerm("connect")) { 
                     $Img = new ImgProfil($_Joueur_['id']);
                 ?>
                 <li class="dropdown" style="z-index: 2000 !important;">
                     <a href="#" class="dropdown-toggle" 
                         <?php
                         if(isset($_GET['page']) AND $_GET['page'] == "forum" OR $_GET['page'] == "forum_categorie"){
-                            if($_PGrades_['PermsForum']['general']['addForum'] == true OR $_PGrades_['PermsForum']['general']['addCategorie'] == true OR $_Joueur_['rang'] == 1){
+                            if(Permission::getInstance()->verifPerm('PermsForum', 'general', 'addForum') OR Permission::getInstance()->verifPerm('PermsForum', 'general', 'addCategorie') OR $_Joueur_['rang'] == 1){
                                 echo 'id="monprofiladmin"';
                             }
                         } ?>                    
-                    data-toggle="dropdown">Mon profil <span id="id_alert"></span> <b class="caret"></b> <img class="icon-player-topbar" src="<?=$Img->getImgToSize(20, $width, $height); ?>" style="height:18px;max-width: 20px!important;"/></a>
+                    data-toggle="dropdown">Mon profil <span id="id_alert"></span> <b class="caret"></b> <img class="icon-player-topbar" src="<?= $_ImgProfil_->getUrlHeadByPseudo($_Joueur_['pseudo']); ?>" style="height:18px;max-width: 20px!important;"/></a>
                     <?php } else { ?>
                     <li class="dropdown" style="height: 50px;">
                         <a href="#" class="dropdown-toggle wow fadeInDown" data-wow-delay="0.3s" data-toggle="dropdown">Connexion/Inscription <b class="caret"></b></a>
@@ -99,7 +99,7 @@
                         <ul class="dropdown-menu">
                             <div style="width: 400px;padding:10px;">
                                 <?php								
-                                if(isset($_Joueur_))
+                                if(Permission::getInstance()->verifPerm("connect"))
                                 {
                                     $req_topic = $bddConnection->prepare('SELECT cmw_forum_topic_followed.pseudo, vu, cmw_forum_post.last_answer AS last_answer_pseudo 
                                     FROM cmw_forum_topic_followed
@@ -128,9 +128,9 @@
                                         $alerte++;
                                     }
                                 }
-                                if($_PGrades_['PermsPanel']['access'] == "on" OR $_Joueur_['rang'] == 1)
+                                if(Permission::getInstance()->verifPerm('PermsPanel', 'access') OR $_Joueur_['rang'] == 1)
                                     echo '<a href="admin.php" class="btn btn-danger btn-block"><i class="fas fa-tachometer-alt"></i> Administration</a>';
-                                if($_PGrades_['PermsForum']['moderation']['seeSignalement'] == true OR $_Joueur_['rang'] == 1)
+                                if(Permission::getInstance()->verifPerm('PermsForum', 'moderation', 'seeSignalement') OR $_Joueur_['rang'] == 1)
                                 {
                                     $req_report = $bddConnection->query('SELECT id FROM cmw_forum_report WHERE vu = 0');
                                     $signalement = $req_report->rowCount();
